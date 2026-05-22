@@ -1,0 +1,42 @@
+  body{
+    font-family: Arial;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #090032;
+  }
+  .box{
+    background: rgb(21, 1, 136);
+    padding: 20px;
+    width: 250px;
+    border-radius: 10px;
+    text-align: center;
+  }
+  input{
+    width: 90%;
+    padding: 10px;
+    margin: 5px;
+  }
+  button{
+    padding: 10px;
+    width: 100%;
+    background: green;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  #result{
+    margin-top: 15px;
+    font-size: 50px;
+    color: white;
+  }
+  .Comment{
+    font-size: 40px;
+    color: white;
+  }
+  .result2{
+    width: 100%;
+    height: auto;
+    background-color: blueviolet;
+  }  

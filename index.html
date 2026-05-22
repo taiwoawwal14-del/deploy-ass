@@ -3,12 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
     <link rel="stylesheet" href="./style.css">
+    <title>Grade Calculator</title>
 </head>
 <body>
 
-    <button onclick="checkMonth()">Check Month</button>
-    <script src="./script.js"></script>
+  <div class="box">
+    <h2>Grade Calculator</h2>
+
+    <input type="number" id="math" placeholder="Math">
+    <input type="number" id="english" placeholder="English">
+    <input type="number" id="science" placeholder="Science">
+    <input type="number" id="social" placeholder="Social Studies">
+
+    <button onclick="checkGrade()">Calculate</button>
+
+    <div class="div-div">
+        <div class="result2" id="result"></div>
+    </div>
+  </div>
+<script src="./script.js"></script>
+
 </body>
 </html>
