@@ -33,34 +33,42 @@
 // }
 // 
  function checkGrade(){
-   let math = Number(document.getElementById("math").value);
-   let english = Number(document.getElementById("english").value);
-   let science = Number(document.getElementById("science").value);
-   let social = Number(document.getElementById("social").value);
+   let math = document.getElementById("math").value;
+   let english = document.getElementById("english").value;
+   let science = document.getElementById("science").value;
+   let social = document.getElementById("social").value;
+
+   if (math == "" || english == "" || science == "" || social == "") {
+    alert("input your score");
+    return;
+   }
+
+   math = Number(math);
+   english = Number(english);
+   science = Number(science);
+   social = Number(social);
    let average = (math + english + science + social) / 4;
    let grade = "";
    let comment = "";
-   if (math==""|| english== "" || science== "" || social== "") {
-    alert("input your score")
-   }else if(average >= 80){
+   if(average >= 80){
      grade = "A";
-     comment = "Excellent result";
+     comment = "Ahn ahn, professor has arrived 😎";
    }
    else if(average >= 70){
      grade = "B";
-     comment = "Good result";
+     comment = "Not bad, your pen deserves rice 👏";
    }
    else if(average >= 60){
      grade = "C";
-     comment = "put more effort";
+     comment = "You tried, but your book is side-eyeing you 📚";
    }
    else if(average >= 50){
      grade = "E";
-     comment = "";
+     comment = "You escaped by the window 😅";
    }else{
      grade = "F";
-     comment = "did you read at all";
+     comment = "Even your calculator is disappointed 😭";
    }
    document.getElementById("result").innerHTML =
-   `"Average: "  ${average}  "<br>Grade: " ${grade} "<br>Comment:"  ${comment}`;
+   `Average:   ${average}  <br>Grade:  ${grade} <br>Comment:  ${comment}`;
  }
