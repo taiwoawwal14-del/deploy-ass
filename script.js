@@ -72,3 +72,34 @@
    document.getElementById("result").innerHTML =
    `Average:   ${average}  <br>Grade:  ${grade} <br>Comment:  ${comment}`;
  }
+
+
+ for (let index = 10; index > 0; index--) {
+  console.log(index);
+  
+ }
+
+ for (let num = 0; num <  10; num++) {
+  console.log(`${num} * ${num}`);
+    
+ }
+
+ for (let times = 0; times < 12; times++) {
+  console.log(`${times} * 2 = ${times * 2}`);
+  
+ }
+
+
+ for (let times = 0; times < 12; times++) {
+  console.log(`${times} * 3 = ${times * 3}`);
+  
+ }
+
+
+ for (let times = 0; times < 12; times++) {
+  console.log(`${times} * 4 = ${times * 4}`);
+  
+ }
+//  for (let i = 0; i < 10; i++) {
+  // console.log(i);
+//  }
