@@ -49,8 +49,9 @@
             let num1 = Number(document.getElementById("num1").value);
             let num2 = Number(document.getElementById("num2").value);
             let answer;
-
-            if (operator === "+") {
+            if (!num1 || !num2) {
+                alert("place a number before pressing the button")
+            }else if (operator === "+") {
                 answer = num1 + num2;
             } else if (operator === "-") {
                 answer = num1 - num2;
