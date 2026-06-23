@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Todo App</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            text-align: center;
+        }
+
+        .container {
+            width: 400px;
+            margin: 50px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        input {
+            width: 70%;
+            padding: 8px;
+        }
+
+        button {
+            padding: 8px;
+            cursor: pointer;
+            margin: 2px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            background: #eee;
+            margin: 10px 0;
+            padding: 10px;
+        }
+
+        .done {
+            text-decoration: line-through;
+            color: gray;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2>Todo App</h2>
+
+        <input type="text" id="todoInput" placeholder="Enter a task" style="width:75%;">
+        <button onclick="addTodo()">Add</button>
+
+        <table id="todoTable" style="width:100%;margin-top:12px;border-collapse:collapse;">
+            <thead>
+                <tr style="background:#f0f0f0;text-align:left;">
+                    <th style="padding:6px;border-bottom:1px solid #ddd;">S/N</th>
+                    <th style="padding:6px;border-bottom:1px solid #ddd;">Task</th>
+                    <th style="padding:6px;border-bottom:1px solid #ddd;">Date</th>
+                    <th style="padding:6px;border-bottom:1px solid #ddd;">Action</th>
+                </tr>
+            </thead>
+            <tbody id="todoList"></tbody>
+        </table>
+    </div>
+
+    <script>
+        function addTodo() {
+            var input = document.getElementById('todoInput');
+            var task = input.value;
+
+            if (task === '') { alert('Enter a task'); return; }
+
+            var tbody = document.getElementById('todoList');
+            var tr = document.createElement('tr');
+            var dateStr = new Date().toLocaleDateString();
+
+            tr.innerHTML = '' +
+                '<td class="num" style="padding:6px;border-bottom:1px solid #eee;">0</td>' +
+                '<td class="task" style="padding:6px;border-bottom:1px solid #eee;"><span>' + escapeHtml(task) + '</span></td>' +
+                '<td class="date" style="padding:6px;border-bottom:1px solid #eee;">' + dateStr + '</td>' +
+                '<td style="padding:6px;border-bottom:1px solid #eee;"><button onclick="toggleDone(this)">Done</button><button onclick="editTodo(this)">Edit</button><button onclick="deleteTodo(this)">Delete</button></td>';
+
+            tbody.appendChild(tr);
+            input.value = '';
+            updateNumbers();
+        }
+
+        function toggleDone(button) {
+            var row = button.closest('tr');
+            var span = row.querySelector('.task span');
+            span.classList.toggle('done');
+        }
+
+        function editTodo(button) {
+            var row = button.closest('tr');
+            var taskSpan = row.querySelector('.task span');
+            var newTask = prompt('Edit task:', taskSpan.textContent);
+            if (newTask !== null && newTask !== '') taskSpan.textContent = newTask;
+        }
+
+        function deleteTodo(button) {
+            var row = button.closest('tr');
+            if (row) row.parentElement.removeChild(row);
+            updateNumbers();
+        }
+
+        function updateNumbers(){
+            var tbody = document.getElementById('todoList');
+            var rows = tbody.querySelectorAll('tr');
+            for (var i=0;i<rows.length;i++){
+                var num = rows[i].querySelector('.num');
+                if (num) num.textContent = (i+1);
+            }
+        }
+
+        function escapeHtml(str){
+            if (!str) return '';
+            return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+        }
+    </script>
+
+</body>
+</html>
