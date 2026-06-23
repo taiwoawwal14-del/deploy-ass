@@ -6,14 +6,14 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: #f4f4f4;
+            background: red;
             text-align: center;
         }
 
         .container {
             width: 400px;
             margin: 50px auto;
-            background: white;
+            background: rgb(77, 0, 0);
             padding: 20px;
             border-radius: 10px;
         }
@@ -27,6 +27,8 @@
             padding: 8px;
             cursor: pointer;
             margin: 2px;
+            background-color: rgb(6, 3, 0);
+            color: white;
         }
 
         ul {
@@ -35,14 +37,14 @@
         }
 
         li {
-            background: #eee;
+            background: rgb(77, 0, 0);
             margin: 10px 0;
             padding: 10px;
         }
 
         .done {
             text-decoration: line-through;
-            color: gray;
+            color: rgb(16, 16, 16);
         }
     </style>
 </head>
@@ -52,16 +54,16 @@
     <div class="container">
         <h2>Todo App</h2>
 
-        <input type="text" id="todoInput" placeholder="Enter a task" style="width:75%;">
+        <input type="text" id="todoInput" placeholder="Enter a task" style="width:75%; background-color: rgb(77, 0, 0);">
         <button onclick="addTodo()">Add</button>
 
         <table id="todoTable" style="width:100%;margin-top:12px;border-collapse:collapse;">
             <thead>
-                <tr style="background:#f0f0f0;text-align:left;">
-                    <th style="padding:6px;border-bottom:1px solid #ddd;">S/N</th>
-                    <th style="padding:6px;border-bottom:1px solid #ddd;">Task</th>
-                    <th style="padding:6px;border-bottom:1px solid #ddd;">Date</th>
-                    <th style="padding:6px;border-bottom:1px solid #ddd;">Action</th>
+                <tr style="background:rgb(77, 0, 0);text-align:left;">
+                    <th style="padding:6px;border-bottom:1px solid rgb(77, 0, 0);">S/N</th>
+                    <th style="padding:6px;border-bottom:1px solid rgb(77, 0, 0);">Task</th>
+                    <th style="padding:6px;border-bottom:1px solid rgb(77, 0, 0);">Date</th>
+                    <th style="padding:6px;border-bottom:1px solid rgb(77, 0, 0);">Action</th>
                 </tr>
             </thead>
             <tbody id="todoList"></tbody>
