@@ -3,50 +3,34 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>All Pages - Single Index</title>
+    <title>Project File Index</title>
     <style>
-      body{font-family:Arial,Helvetica,sans-serif;margin:0;background:#f4f4f4}
-      header{background:#2d89ef;color:#fff;padding:12px 16px}
-      nav{display:flex;gap:8px}
-      nav button{padding:8px 12px;border:0;background:#fff;color:#2d89ef;border-radius:4px;cursor:pointer}
-      nav button.active{background:#174ea6;color:#fff}
-      .frame{width:100%;height:calc(100vh - 60px);border:0;display:none}
-      .frame.show{display:block}
+      body{font-family:Arial,Helvetica,sans-serif;margin:0;background:#f9f9f9;color:#222}
+      header{background:#222;color:#fff;padding:12px 16px}
+      main{padding:20px}
+      ul{list-style:none;padding:0}
+      li{margin:8px 0}
+      a{color:#2d89ef;text-decoration:none}
+      a:hover{text-decoration:underline}
+      .meta{color:#666;font-size:0.9em}
     </style>
   </head>
   <body>
     <header>
-      <div style="display:flex;align-items:center;justify-content:space-between">
-        <h2 style="margin:0">Project Pages</h2>
-        <nav id="nav">
-          <button data-target="home" class="active">Home</button>
-          <button data-target="calculator">Calculator</button>
-          <button data-target="test">Test</button>
-          <button data-target="todo">Todo</button>
-        </nav>
-      </div>
+      <h1 style="margin:0">Files in this folder</h1>
     </header>
 
     <main>
-      <iframe id="home" class="frame show" srcdoc="<div style='padding:24px'><h3>Welcome</h3><p>Use the tabs to open the embedded pages: Calculator, Test, and Todo.</p><ul><li><a href='calculator.html' target='_blank'>Open Calculator in new tab</a></li><li><a href='test.html' target='_blank'>Open Test page in new tab</a></li><li><a href='Todo.html' target='_blank'>Open Todo in new tab</a></li></ul></div>"></iframe>
-
-      <iframe id="calculator" class="frame" src="calculator.html"></iframe>
-      <iframe id="test" class="frame" src="test.html"></iframe>
-      <iframe id="todo" class="frame" src="Todo.html"></iframe>
+      <p>Click a file to open it in a new tab.</p>
+      <ul>
+        <li><a href="calculator.html" target="_blank">calculator.html</a> <span class="meta">— Calculator page</span></li>
+        <li><a href="Todo.html" target="_blank">Todo.html</a> <span class="meta">— Todo app</span></li>
+        <li><a href="test.html" target="_blank">test.html</a> <span class="meta">— Test page</span></li>
+        <li><a href="script.js" target="_blank">script.js</a> <span class="meta">— JavaScript file</span></li>
+        <li><a href="style.css" target="_blank">style.css</a> <span class="meta">— Stylesheet</span></li>
+        <li><a href="README.md" target="_blank">README.md</a> <span class="meta">— Project readme</span></li>
+        <li><a href=".gitignore" target="_blank">.gitignore</a></li>
+      </ul>
     </main>
-
-    <script>
-      var buttons = document.querySelectorAll('nav button');
-      buttons.forEach(function(b){
-        b.addEventListener('click', function(){
-          buttons.forEach(function(x){x.classList.remove('active')});
-          b.classList.add('active');
-          var target = b.getAttribute('data-target');
-          document.querySelectorAll('.frame').forEach(function(f){
-            if (f.id === target) f.classList.add('show'); else f.classList.remove('show');
-          });
-        });
-      });
-    </script>
   </body>
 </html>
