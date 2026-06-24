@@ -1,130 +1,195 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Simple Todo App</title>
+    <title>Todo App</title>
 
     <style>
-        body {
+        body{
             font-family: Arial, sans-serif;
-            background: red;
-            text-align: center;
+            background: linear-gradient(to right, #4d0000, #060300);
+            display: flex;
+            justify-content: center;
+            margin-top: 50px;
         }
 
-        .container {
-            width: 400px;
-            margin: 50px auto;
-            background: rgb(77, 0, 0);
+        .container{
+            width: 500px;
+            background: white;
             padding: 20px;
             border-radius: 10px;
+            background:linear-gradient(to bottom, #4d0000, #060300);
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
         }
 
-        input {
-            width: 70%;
-            padding: 8px;
-        }
-
-        button {
-            padding: 8px;
-            cursor: pointer;
-            margin: 2px;
-            background-color: rgb(6, 3, 0);
+        h1{
+            text-align: center;
             color: white;
         }
 
-        ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        li {
-            background: rgb(77, 0, 0);
-            margin: 10px 0;
+        input{
+            width: 70%;
             padding: 10px;
+            background:linear-gradient(to right, #4d0000, #060300);
         }
 
-        .done {
+        button{
+            padding: 10px;
+            margin: 2px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: white;
+            background:linear-gradient(to right, #4d0000, #060300);
+        }
+
+        .add-btn{
+            background: green;
+        }
+
+        .done-btn{
+            background: blue;
+        }
+
+        .edit-btn{
+            background: orange;
+        }
+
+        .delete-btn{
+            background: red;
+        }
+
+        table{
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            background:linear-gradient(to right, #4d0000, #060300);
+            color: white;
+        }
+
+        th, td{
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .done{
             text-decoration: line-through;
-            color: rgb(16, 16, 16);
+            color: gray;
         }
     </style>
 </head>
-
 <body>
 
-    <div class="container">
-        <h2>Todo App</h2>
+<div class="container">
 
-        <input type="text" id="todoInput" placeholder="Enter a task" style="width:75%; background-color: rgb(77, 0, 0);">
-        <button onclick="addTodo()">Add</button>
+    <h1>Todo App</h1>
 
-        <table id="todoTable" style="width:100%;margin-top:12px;border-collapse:collapse;">
-            <thead>
-                <tr style="background:rgb(77, 0, 0);text-align:left;">
-                    <th style="padding:6px;border-bottom:1px solid rgb(77, 0, 0);">S/N</th>
-                    <th style="padding:6px;border-bottom:1px solid rgb(77, 0, 0);">Task</th>
-                    <th style="padding:6px;border-bottom:1px solid rgb(77, 0, 0);">Date</th>
-                    <th style="padding:6px;border-bottom:1px solid rgb(77, 0, 0);">Action</th>
-                </tr>
-            </thead>
-            <tbody id="todoList"></tbody>
-        </table>
-    </div>
+    <input type="text" id="task" placeholder="Enter task">
+    <button class="add-btn" onclick="addTodo()">Add</button>
 
-    <script>
-        function addTodo() {
-            var input = document.getElementById('todoInput');
-            var task = input.value;
+    <table>
+        <tr>
+            <th>No</th>
+            <th>Task</th>
+            <th>Actions</th>
+        </tr>
 
-            if (task === '') { alert('Enter a task'); return; }
+        <tbody id="list"></tbody>
+    </table>
 
-            var tbody = document.getElementById('todoList');
-            var tr = document.createElement('tr');
-            var dateStr = new Date().toLocaleDateString();
+</div>
 
-            tr.innerHTML = '' +
-                '<td class="num" style="padding:6px;border-bottom:1px solid #eee;">0</td>' +
-                '<td class="task" style="padding:6px;border-bottom:1px solid #eee;"><span>' + escapeHtml(task) + '</span></td>' +
-                '<td class="date" style="padding:6px;border-bottom:1px solid #eee;">' + dateStr + '</td>' +
-                '<td style="padding:6px;border-bottom:1px solid #eee;"><button onclick="toggleDone(this)">Done</button><button onclick="editTodo(this)">Edit</button><button onclick="deleteTodo(this)">Delete</button></td>';
+<script>
 
-            tbody.appendChild(tr);
-            input.value = '';
-            updateNumbers();
+let todos = JSON.parse(localStorage.getItem("todos")) || [];
+
+function saveTodo(){
+    localStorage.setItem("todos", JSON.stringify(todos));
+}
+
+function addTodo(){
+
+    let input = document.getElementById("task");
+
+    if(input.value == ""){
+        alert("Please enter a task!");
+        return;
+    }
+
+    todos.push({
+        task: input.value,
+        done: false
+    });
+
+    saveTodo();
+
+    input.value = "";
+
+    showTodo();
+}
+
+function showTodo(){
+
+    let list = document.getElementById("list");
+
+    list.innerHTML = "";
+
+    for(let i = 0; i < todos.length; i++){
+
+        let style = "";
+
+        if(todos[i].done){
+            style = "done";
         }
 
-        function toggleDone(button) {
-            var row = button.closest('tr');
-            var span = row.querySelector('.task span');
-            span.classList.toggle('done');
-        }
+        list.innerHTML += `
+        <tr>
+            <td>${i + 1}</td>
+            <td class="${style}">${todos[i].task}</td>
+            <td>
+                <button class="done-btn" onclick="doneTodo(${i})">Done</button>
+                <button class="edit-btn" onclick="editTodo(${i})">Edit</button>
+                <button class="delete-btn" onclick="deleteTodo(${i})">Delete</button>
+            </td>
+        </tr>
+        `;
+    }
+}
 
-        function editTodo(button) {
-            var row = button.closest('tr');
-            var taskSpan = row.querySelector('.task span');
-            var newTask = prompt('Edit task:', taskSpan.textContent);
-            if (newTask !== null && newTask !== '') taskSpan.textContent = newTask;
-        }
+function doneTodo(index){
 
-        function deleteTodo(button) {
-            var row = button.closest('tr');
-            if (row) row.parentElement.removeChild(row);
-            updateNumbers();
-        }
+    todos[index].done = !todos[index].done;
 
-        function updateNumbers(){
-            var tbody = document.getElementById('todoList');
-            var rows = tbody.querySelectorAll('tr');
-            for (var i=0;i<rows.length;i++){
-                var num = rows[i].querySelector('.num');
-                if (num) num.textContent = (i+1);
-            }
-        }
+    saveTodo();
 
-        function escapeHtml(str){
-            if (!str) return '';
-            return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-        }
-    </script>
+    showTodo();
+}
+
+function editTodo(index){
+
+    let newTask = prompt("Edit Task", todos[index].task);
+
+    if(newTask != null && newTask != ""){
+        todos[index].task = newTask;
+
+        saveTodo();
+
+        showTodo();
+    }
+}
+
+function deleteTodo(index){
+
+    todos.splice(index, 1);
+
+    saveTodo();
+
+    showTodo();
+}
+
+showTodo();
+
+</script>
 
 </body>
 </html>
