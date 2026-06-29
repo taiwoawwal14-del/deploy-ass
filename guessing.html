@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guessing Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 420px;
+            margin: 30px auto;
+            padding: 20px;
+            background: #f7f8fb;
+            color: #333;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        p {
+            margin: 10px 0;
+        }
+
+        #buttonRow {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            margin: 16px 0;
+        }
+
+        button {
+            border: none;
+            border-radius: 8px;
+            padding: 12px;
+            background: #5c7cfa;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #4f6dfb;
+        }
+
+        button.selected {
+            background: #2f855a;
+            box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.25);
+        }
+
+        button.used {
+            background: #718096;
+            cursor: not-allowed;
+        }
+
+        button:disabled {
+            background: #a5b4fc;
+            cursor: default;
+        }
+
+        #message {
+            background: white;
+            border: 1px solid #dde4f2;
+            border-radius: 10px;
+            padding: 12px;
+        }
+
+        #actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 14px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Guess the Number</h1>
+    <p>Pick a number from 1 to 10. You have 5 tries.</p>
+
+    <div id="buttonRow">
+        <button data-value="1" onclick="setGuess(1, this)">1</button>
+        <button data-value="2" onclick="setGuess(2, this)">2</button>
+        <button data-value="3" onclick="setGuess(3, this)">3</button>
+        <button data-value="4" onclick="setGuess(4, this)">4</button>
+        <button data-value="5" onclick="setGuess(5, this)">5</button>
+        <button data-value="6" onclick="setGuess(6, this)">6</button>
+        <button data-value="7" onclick="setGuess(7, this)">7</button>
+        <button data-value="8" onclick="setGuess(8, this)">8</button>
+        <button data-value="9" onclick="setGuess(9, this)">9</button>
+        <button data-value="10" onclick="setGuess(10, this)">10</button>
+    </div>
+
+    <p><strong>Chosen:</strong> <span id="selectedGuess">none</span> 🔢</p>
+    <p id="attemptsLeft">Attempts left: 5</p>
+    <div id="message">Pick a number and click Check. 😊</div>
+
+    <div id="actions">
+        <button id="checkButton" onclick="checkGuess()">Check</button>
+        <button onclick="resetGame()">Play Again</button>
+    </div>
+
+    <script>
+        let guess = 0;
+        let tries = 0;
+        const maxTries = 5;
+        let usedNumbers = new Set();
+        let secretNumber = randomNumber(10);
+
+        // Return a random whole number from 1 to max.
+        function randomNumber(max) {
+            return Math.floor(Math.random() * max) + 1;
+        }
+
+        function setGuess(value, button) {
+            guess = value;
+            document.getElementById('selectedGuess').textContent = value;
+            updateStatus(`You picked ${value}. Now click Check. ✅`);
+            document.querySelectorAll('#buttonRow button').forEach(btn => btn.classList.remove('selected'));
+            if (!usedNumbers[value]) {
+                button.classList.add('selected');
+            }
+        }
+
+        function updateStatus(text) {
+            document.getElementById('message').textContent = text;
+        }
+
+        function markUsedButton(value) {
+            const button = document.querySelector(`#buttonRow button[data-value='${value}']`);
+            if (button) {
+                button.classList.add('used');
+            }
+        }
+
+        function checkGuess() {
+            if (guess === 0) {
+                updateStatus('Please choose a number first.');
+                return;
+            }
+
+            if (usedNumbers.has(guess)) {
+                updateStatus(`You already checked ${guess}. Pick another number.`);
+                return;
+            }
+
+            usedNumbers.add(guess);
+            markUsedButton(guess);
+            tries += 1;
+            const left = maxTries - tries;
+
+            if (guess === secretNumber) {
+                updateStatus(`🎉🎊 Correct! The number was ${secretNumber}. Great job!`);
+                document.getElementById('checkButton').disabled = true;
+                document.getElementById('attemptsLeft').textContent = 'Attempts left: 0';
+                return;
+            }
+
+            if (left > 0) {
+                updateStatus(`❌ Wrong. ${guess} is not right. ${left} ${left === 1 ? 'try' : 'tries'} left.`);
+            } else {
+                updateStatus(`😔 Game over. The number was ${secretNumber}.`);
+                document.getElementById('checkButton').disabled = true;
+            }
+
+            document.getElementById('attemptsLeft').textContent = `Attempts left: ${left}`;
+        }
+
+        function resetGame() {
+            guess = 0;
+            tries = 0;
+            secretNumber = randomNumber(10);
+            usedNumbers = new Set();
+            document.getElementById('selectedGuess').textContent = 'none';
+            document.getElementById('attemptsLeft').textContent = 'Attempts left: 5';
+            updateStatus('Pick a number and click Check.');
+            document.querySelectorAll('#buttonRow button').forEach(btn => {
+                btn.classList.remove('selected');
+                btn.classList.remove('used');
+            });
+            document.getElementById('checkButton').disabled = false;
+        }
+    </script>
+</body>
+</html>
