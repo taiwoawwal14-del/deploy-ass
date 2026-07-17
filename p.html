@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Products</title>
+</head>
+<style>
+body {
+    background:linear-gradient(135deg, #3a1e0d, #2d1d13);
+    font-family: cursive;
+    color: white;
+    text-align: center;
+    padding: 30px;
+}
+h1 {
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px #ff6a00;
+}
+.search-container {
+    margin-bottom: 30px;
+}
+#search-bar {
+    padding: 10px;
+    width: 250px;
+    border-radius: 5px;
+    border: 1px solid #ffb703;
+    background-color: #2b1a10;
+    color: white;
+    font-family: cursive;
+}
+#product-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 25px;
+}
+#product-list > div {
+    border: 2px solid #ffb703;
+    box-shadow: 0 0 15px 2px #ff5e00;
+    background-color: #2b1a10;
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 220px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+/* little hover pop so the cards feel alive */
+#product-list > div:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 0 25px 4px #ff5e00;
+}
+#product-list img {
+    width: 100%;
+    max-width: 160px;
+    height: 160px;
+    object-fit: contain;
+    background-color: #3a2416;
+    border-radius: 6px;
+    margin: 10px 0;
+}
+#product-list h3 {
+    margin: 5px 0;
+    font-size: 18px;
+    color: #ffb703;
+}
+#product-list p {
+    margin: 5px 0;
+    font-size: 16px;
+    color: #f5f5f5;
+}
+hr {
+    display: none; /* we're using card spacing instead of a divider line now */
+}
+button {
+    width: 100px;
+    height: 40px;
+    background-color: #ff5e00;
+    color: white;
+    border-radius: 5px;
+    border: 1px solid #ffb703;
+    margin-bottom: 40px;
+    font-family: cursive;
+    cursor: pointer;
+}
+button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 27px 6px #ff5e00;
+}
+</style>
+<body>
+
+<h1>My Products</h1>
+
+<div class="search-container">
+    <input type="text" id="search-bar" placeholder="Search products..." oninput="filterProducts()">
+</div>
+
+<h2>Filters</h2>
+<div>
+    <button type="button" onclick="filterProducts('All')">All</button>
+    <button type="button" onclick="filterProducts('Groceries')">Groceries</button>
+    <button type="button" onclick="filterProducts('Beauty')">Beauty</button>
+    <button type="button" onclick="filterProducts('Furniture')">Furniture</button>
+    <button type="button" onclick="filterProducts('Fragrances')">Fragrances</button>
+</div>
+
+<!-- This is the empty box where our products will appear -->
+<div id="product-list"></div>
+
+<script>
+let allProducts = []; // To store our fetched products
+
+// 1. Get the data from the website
+fetch('https://dummyjson.com/products')
+    .then(response => response.json())
+    .then(data => {
+        allProducts = data.products; // Save the full list
+        displayProducts(allProducts); // Display them all initially
+    });
+
+// 2. Function to display products on the page
+function displayProducts(productsToDisplay) {
+    const box = document.getElementById('product-list');
+    box.innerHTML = ''; // Clear previous results
+
+    if (productsToDisplay.length === 0) {
+        box.innerHTML = '<p>No products found.</p>';
+        return;
+    }
+
+    productsToDisplay.forEach(product => {
+        box.innerHTML += `
+            <div>
+                <img src="${product.thumbnail}" alt="${product.title}">
+                <h3>${product.title}</h3>
+                <p>Price: $${product.price}</p>
+            </div>
+        `;
+    });
+}
+
+// 3. Combined search and category filter
+function filterProducts(category = 'All') {
+    const searchTerm = document.getElementById('search-bar').value.toLowerCase();
+
+    let filtered = allProducts;
+
+    // Filter by Category
+    if (category !== 'All') {
+        filtered = filtered.filter(product => product.category === category.toLowerCase());
+    }
+
+    // Filter by Search Term
+    if (searchTerm !== '') {
+        filtered = filtered.filter(product => product.title.toLowerCase().includes(searchTerm));
+    }
+
+    displayProducts(filtered);
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>My Product List</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2;
+        padding: 20px;
+      }
+
+      h1 {
+        text-align: center;
+        color: #333;
+      }
+
+      /* buttons for filter */
+      .filter-buttons {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .filter-buttons button {
+        padding: 8px 16px;
+        margin: 5px;
+        border: none;
+        background-color: #4caf50;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .filter-buttons button:hover {
+        background-color: #45a049;
+      }
+
+      /* product list */
+      .product-list {
+        max-width: 300px;
+        margin: 0 auto;
+      }
+
+      .product-item {
+        background: white;
+        padding: 10px 15px;
+        margin-bottom: 8px;
+        border-radius: 5px;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+      }
+    </style>
+  </head>
+  <body>
+    <h1>My Product List</h1>
+
+    <div class="filter-buttons">
+      <button onclick="filterProducts('all')">All</button>
+      <button onclick="filterProducts('bag')">Bags</button>
+      <button onclick="filterProducts('clothes')">Clothes</button>
+      <button onclick="filterProducts('car')">Cars</button>
+    </div>
+
+    <div class="product-list" id="productList"></div>
+
+    <script>
+      let products = [
+        { name: "Leather Bag", category: "bag" },
+        { name: "School Bag", category: "bag" },
+        { name: "Handbag", category: "bag" },
+        { name: "T-Shirt", category: "clothes" },
+        { name: "Jeans", category: "clothes" },
+        { name: "Jacket", category: "clothes" },
+        { name: "Toyota Camry", category: "car" },
+        { name: "Honda Civic", category: "car" },
+        { name: "Ford Mustang", category: "car" },
+      ];
+
+      // function to show product names on the page
+      function showProducts(list) {
+        // get the div where names will go
+        let container = document.getElementById("productList");
+
+        // use map to loop through the list and create html for each name
+        let productHTML = list.map(function (item) {
+          return `<div class="product-item">${item.name}</div>`;
+        });
+
+        // join all the html together and put it inside the container
+        container.innerHTML = productHTML.join("");
+      }
+
+      // function that runs when a filter button is clicked
+      function filterProducts(category) {
+        if (category === "all") {
+          // show everything
+          showProducts(products);
+        } else {
+          // only show products that match the category
+          let filtered = products.filter(function (item) {
+            return item.category === category;
+          });
+          showProducts(filtered);
+        }
+      }
+
+      // show all products first when page loads
+      showProducts(products);
+    </script>
+  </body>
+</html>
